@@ -1,9 +1,12 @@
+
 from dotenv import load_dotenv, find_dotenv
 import json
 import os
 from openai import OpenAI
 #from openai.embeddings_utils import get_embedding, cosine_similarity
 import numpy as np
+
+
 
 _ = load_dotenv('api_keys.env')
 client = OpenAI(
@@ -30,13 +33,14 @@ def cosine_similarity(a, b):
 #recomendada.
 
 req = "película de perros"
-emb = get_embedding(req)
-
-sim = []
-for i in range(len(movies)):
-  sim.append(cosine_similarity(emb,movies[i]['embedding']))
-sim = np.array(sim)
-idx = np.argmax(sim)
-print(movies[idx]['title'])
+def return_recommendation(req):
+    emb = get_embedding(req)
+    sim = []
+    for i in range(len(movies)):
+        sim.append(cosine_similarity(emb,movies[i]['embedding']))
+        sim = np.array(sim)
+        idx = np.argmax(sim)
+        return(movies[idx]['title'])
+print(return_recommendation(req))
 
 
